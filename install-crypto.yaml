@@ -1,0 +1,9 @@
+---
+- hosts: ds-cluster
+  become: true 
+  tasks:
+
+  - name: set env 
+     command: env LD_LIBRARY_PATH="/opt/cloudera/parcels/Anaconda/lib"
+  - name: install crypto 
+     command: /opt/cloudera/parcels/Anaconda/bin/pip install cryptography 

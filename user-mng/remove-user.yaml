@@ -1,0 +1,10 @@
+--- # USER MODULE EXAMPLE
+- hosts: mng
+  user: shahab
+  become: yes
+  become_method: sudo
+  gather_facts: no
+  connection: ssh
+  tasks:
+    - name: Add the user called tstapache to the apache web client
+      user: name=tst1 state=absent remove=yes 

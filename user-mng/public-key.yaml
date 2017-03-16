@@ -1,0 +1,12 @@
+--- # USER MODULE EXAMPLE
+- hosts: mng
+  user: shahab
+  become: yes
+  become_method: sudo  
+  gather_facts: no
+  connection: ssh
+  tasks:
+    - authorized_key:
+      user: tst1
+      key: "{{ lookup('file', '/home/tst1/.ssh/id_rsa.pub') }}"
+    

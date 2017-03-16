@@ -1,0 +1,28 @@
+---
+- hosts: '{{hosts}}'  
+  user: shahab
+  connection: ssh 
+  become: yes
+  become_method: sudo
+  tasks:
+   - name: Disallow password authentication
+     lineinfile: dest=/etc/ssh/sshd_config
+                 regexp="^#PasswordAuthentication"
+                 line="PasswordAuthentication no"
+                 state=present
+     notify: Restart ssh
+   - name: Disallow root SSH access
+     lineinfile: dest=/etc/ssh/sshd_config
+                 regexp="^#PermitRootLogin"
+                 line="PermitRootLogin no"
+                 state=present
+     notify: Restart ssh
+   - name: allow just protcol 2
+     lineinfile: dest=/etc/ssh/sshd_config
+                 regexp="^#Protocol 2"
+                 line="Protocol 2"
+                 state=present
+     notify: Restart ssh
+  handlers:
+    - name: Restart ssh
+      service: name=sshd state=restarted 

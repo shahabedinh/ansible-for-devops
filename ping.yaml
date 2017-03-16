@@ -1,0 +1,6 @@
+--- # PING MODULE EXAMPLE
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Ping all the hosts
+      ping:

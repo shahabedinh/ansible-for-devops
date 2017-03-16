@@ -1,0 +1,52 @@
+---
+- hosts: all
+  become: true 
+  tasks:
+
+  - name: install the 'Development tools' package group
+    yum:
+      name: "@Development tools"
+      state: present
+
+  - name: Install basic packages
+    yum: name={{ item }} state=latest 
+    with_items:
+     - epel-release
+     - htop
+     - git
+     - ntp
+     - syslog
+     - ncdu
+     - abrt-cli 
+     - deltarpm
+     - vim 
+     - curl 
+     - tar 
+     - wget 
+     - unzip
+
+  - name: remove package
+    yum: name={{ item }} state=absent
+    with_items:
+    - chrony
+
+  - name: Ensure mcelog
+    yum: name=mcelog state=present
+    notify:
+      - Start mcelog 
+  - name: Ensure ntp
+    yum: name=ntp state=present
+    notify:
+      - Start ntpd 
+  - name: Ensure auto reporting insttalled and running
+    yum: name=abrt-cli state=present
+    notify:
+      - Start abrtd 
+
+  handlers:
+   - name: Start mcelog
+     service: name=mcelog state=restarted enabled=yes
+   - name: Start ntpd
+     service: name=ntpd state=restarted enabled=yes
+   - name: Start abrtd
+     service: name=abrtd state=restarted enabled=yes

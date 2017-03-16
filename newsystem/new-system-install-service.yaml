@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+   - name: Ensure mcelog
+     yum: name=mcelog state=present
+   - name: Ensure mcelog is running.
+     service: name=mcelog state=started enabled=yes
+   - name: Ensure ntp
+     yum: name=ntp state=present
+   - name: Ensure ntp is running.
+     service: name=ntpd state=started enabled=yes
+   - name: Ensure auto reporting insttalled and running 
+     yum: name=abrt-cli state=present
+   - name: Ensure abrt-cli is running.
+     service: name=abrtd state=started enabled=yes
